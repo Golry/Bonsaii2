@@ -78,6 +78,8 @@ namespace Bonsaii.Models
         public System.Data.Entity.DbSet<Bonsaii.Models.Contract> Contracts { get; set; }
         public System.Data.Entity.DbSet<Bonsaii.Models.StaffSkill> StaffSkills { get; set; }
 
+        public System.Data.Entity.DbSet<Bonsaii.Models.DepartmentReserve> DepartmentReserves { get; set; }
 
+        public System.Data.Entity.DbSet<Bonsaii.Models.ReserveRecord> ReserveRecords { get; set; }
     }
 }

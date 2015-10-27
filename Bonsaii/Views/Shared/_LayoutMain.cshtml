@@ -27,80 +27,77 @@
             <div id="jquery-accordion-menu" class="jquery-accordion-menu">
                 @* <div class="jquery-accordion-menu-header" id="form"></div>*@
                 <ul id="demo-list">
+                    <li>
+                        <a href="#">系统设置</a>
+                        <ul class="submenu">
+                            <li>@Html.ActionLink("用户管理", "Index", "User")</li>
+                        </ul>
+                    </li>
 
                     <li>
                         <a href="#">常规设置</a>
                         <ul class="submenu">
-                            <li>@Html.ActionLink("录入常用语","Index","Phrase")</li>
+                            <li>@Html.ActionLink("自定义界面设置","Index","ReserveRecord")</li>
+                            <li>@Html.ActionLink("录入常用语", "Index", "Phrase")</li>
+                            <li>@Html.ActionLink("设置编码规则", "Index", "ParamCodes")</li>
+                            <li>@Html.ActionLink("设置单据性质", "Index", "BillPropertyModels")</li>
+                            <li><a href="#">人事参数设置 </a>
+                                <ul class="submenu">
+                                    <li>@Html.ActionLink("基础数据管理", "Index", "StaffParams")</li>
+                                    <li>@Html.ActionLink("基本参数设置", "Manage", "StaffBasicParams")</li>
+                                </ul>
+                            </li>
                         </ul>
                     </li>
-
-                    <li>
-                        <a href="#">人事管理 </a>
-                        <ul class="submenu">
-                            <li>@Html.ActionLink("员工档案管理+", "Index", "Staff")</li>  
-                            <li>@Html.ActionLink("员工技能管理+", "Index", "StaffSkill")</li>                       
-                            
-                            <li><a href="#">厂牌管理 </a></li>
-                            <li>@Html.ActionLink("法定节假日管理+", "Index", "Holiday")</li>
-                            <li>@Html.ActionLink("假日管理+", "Index", "RecordDatetime")</li>
-                            <li>@Html.ActionLink("日历+", "Index", "WeekTag")</li>
-                            <li>@Html.ActionLink("合同管理+", "Index", "Contract")</li>
-                            <li>@Html.ActionLink("人事变更申请","Index","StaffChange")</li>
-                            <li>@Html.ActionLink("人事变更审核","Index","StaffChangeMange")</li>
-                            <li>@Html.ActionLink("离职申请","Index","StaffApplication")</li>
-                            <li>@Html.ActionLink("离职审核","Index","StaffApplicationManage")</li>
-                            <li>@Html.ActionLink("离职档案管理", "Index", "StaffArchive")</li>
-                            <li>@Html.ActionLink("招聘需求管理", "Index", "Recruitments") </a></li>
-                            <li><a href="#">招聘信息发布 </a></li>
-                            <li><a href="#">应聘管理 </a></li>
-                            <li><a href="#">培训发起 </a></li>
-                            <li><a href="#">培训通知 </a></li>
-                            <li><a href="#">培训记录 </a></li>
-
-
-                        </ul>
-                    </li>
-
 
                     <li>
                         <a href="#">组织结构 </a>
                         <ul class="submenu">
-                            <li>@Html.ActionLink("企业信息管理", "Details", "Company")</li>
-                            @*<li>@Html.ActionLink("集团企业管理", "Index", "GroupCompany")</li>*@
+                            <li>@Html.ActionLink("公司信息管理", "Details", "Company")</li>
                             <li>@Html.ActionLink("部门信息管理", "Index", "Department")</li>
                         </ul>
                     </li>
 
-
-                    <li>
-                        <a href="#">管理子系统维护 </a>
+                    <li><a href="#">人事管理 </a>
                         <ul class="submenu">
-                            <li>@Html.ActionLink("管理员信息管理","Index","User")</li>
-                            @*<li><a href="#">角色管理 </a></li>*@
+                            <li>@Html.ActionLink("员工档案管理", "Index", "Staff")</li>
+                            <li>@Html.ActionLink("员工技能管理", "Index", "StaffSkill")</li>
+                            <li><a href="#">厂牌管理 </a></li>
+                           
+                            <li><a href="#">人事变更管理 </a>
+                                <ul class="submenu">
+                                    <li>@Html.ActionLink("人事变更申请", "Index", "StaffChange")</li>
+                                    <li>@Html.ActionLink("人事变更审核", "Index", "StaffChangeMange")</li>
+                                </ul>
+                            </li>
+                            <li>@Html.ActionLink("合同管理", "Index", "Contract")</li>
+                            <li><a>离职管理</a>
+                                <ul class="submenu">
+                                    <li>@Html.ActionLink("离职申请", "Index", "StaffApplication")</li>
+                                    <li>@Html.ActionLink("离职审核", "Index", "StaffApplicationManage")</li>
+                                    <li>@Html.ActionLink("离职档案管理", "Index", "StaffArchive")</li>
+                                </ul>
+                            </li>
+                            <li><a>招聘管理</a>
+                                <ul class="submenu">
+                                    <li>@Html.ActionLink("招聘需求管理", "Index", "Recruitments") </a></li>
+                                    <li><a href="#">招聘信息发布 </a></li>
+                                    <li><a href="#">应聘管理 </a></li>
+                                    <li><a href="#">培训发起 </a></li>
+                                    <li><a href="#">培训通知 </a></li>
+                                    <li><a href="#">培训记录 </a></li>
+                                </ul>
+                            </li>
                         </ul>
                     </li>
-                    <li>
-                        <a href="#">人事参数设置 </a>
-                        <ul class="submenu">
-                            <li>@Html.ActionLink("基础数据管理", "Index", "StaffParams")</li>
-                            <li>@Html.ActionLink("基本参数设置", "Manage", "StaffBasicParams")</li>
-                            @*<li>@Html.ActionLink("国家", "Index", "Nationality")</li>
-        <li>@Html.ActionLink("健康状况", "Index", "Health")</li>
-        <li>@Html.ActionLink("学历", "Index", "Background")</li>
-        <li>@Html.ActionLink("民族", "Index", "Nation")</li>
-        <li>@Html.ActionLink("技能管理", "Index", "SkillParameter")</li>*@
-                        </ul>
-                    </li>
 
-                    <li>
-                        <a href="#">基本信息管理</a>
+                    <li><a href="#">考勤管理 </a>
                         <ul class="submenu">
-                            <li>@Html.ActionLink("设置编码规则", "Index", "ParamCodes")</li>
-                            <li>@Html.ActionLink("设置单据性质", "Index", "BillPropertyModels")</li>
-                        </ul>
+                            <li>@Html.ActionLink("法定节假日管理", "Index", "Holiday")</li>
+                            <li>@Html.ActionLink("假日管理", "Index", "RecordDatetime")</li>
+                            <li>@Html.ActionLink("日历", "Index", "WeekTag")</li>
+                         </ul>
                     </li>
-
                 </ul>
 
             </div>

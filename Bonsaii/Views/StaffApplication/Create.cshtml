@@ -20,7 +20,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.BillTypeNumber, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.BillTypeNumber, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.BillTypeNumber, new { htmlAttributes = new { @class = "form-control",@dataprovide="typehead" } })
                 @Html.ValidationMessageFor(model => model.BillTypeNumber, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -123,6 +123,56 @@
 }
 
 <script>
+    /*单据类别选择 */
+    $('#BillTypeNumber').typeahead
+    ({
+        source: function (query, process) {
+            $.ajax({
+                url: '/StaffApplication/BillTypeNumberSearch',
+                type: 'POST',
+                data: { number: query },
+                success: function (data) {
+                    if (data.success == true) {
+                        process(data.data);
+                    }
+                }
+            })
+        },
+    });
+
+    /*实现自动填充单据名称字段*/
+    function sendBillTypeNumber() {
+        var checkText = $('#BillTypeNumber').find("option:selected").text();
+        var checkValue = $('#BillTypeNumber').val();
+        checkValue = checkValue.split(" ")[0];
+        $("#BillTypeNumber").val(checkValue);
+        //console.info(checkValue);
+        $.ajax({
+            url: '/StaffApplication/SendBillTypeNumber',
+            data: { BillTypeNumber: checkValue },
+            type: 'POST',
+            success: function (result) {
+                for (var x in result) {
+                    var tmp = "#" + x;//  result[x]是Value值
+                    // 必须用attr方式
+                    $(tmp).attr('value', result[x]);
+                    //  console.info(result[x]);
+                }
+            },
+        });
+    }
+
+
+    $('#BillTypeNumber').change(function () {
+        //  var tmp = $('#StaffNumber').val();
+        if ($('#BillTypeNumber').val() == "") {
+            $(':input').val("");
+        }
+        else
+            sendBillTypeNumber();
+    });
+
+
     /*员工工号搜索*/
     $('#StaffNumber').typeahead ({
               source:
@@ -158,7 +208,7 @@
                     for (var x in result) {
                         var tmp = "#" + x;
                         $(tmp).attr('value', result[x]);
-                      //  console.info(result[x]);
+                        //console.info(result[x]);
                     }
                 },
         });

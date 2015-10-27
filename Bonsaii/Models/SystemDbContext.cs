@@ -41,5 +41,7 @@ namespace Bonsaii.Models
         public System.Data.Entity.DbSet<Bonsaii.Models.UserViewModels> UserViewModels { get; set; }
 
         public System.Data.Entity.DbSet<Bonsaii.Models.StaffChange> StaffChanges { get; set; }
+
+        public System.Data.Entity.DbSet<Bonsaii.Models.UserPasswordInfo> UserPasswordInfos { get; set; }
     }
 }

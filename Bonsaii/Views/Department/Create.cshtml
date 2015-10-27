@@ -1,4 +1,4 @@
-﻿@model Bonsaii.Models.Department
+﻿@model Bonsaii.Models.DepartmentViewModel
 
 @{
     ViewBag.Title = "Create";
@@ -25,9 +25,9 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.ParentDepartmentId, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.ParentDepartmentName, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownListFor(model=>model.ParentDepartmentId, (IEnumerable<SelectListItem>)ViewBag.List, new { @class = "form-control" })
+                @Html.DropDownListFor(model=>model.ParentDepartmentName, (IEnumerable<SelectListItem>)ViewBag.List, new { @class = "form-control" })
             </div>
         </div>
 

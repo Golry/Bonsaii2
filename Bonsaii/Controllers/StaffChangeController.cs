@@ -97,13 +97,45 @@ namespace Bonsaii.Controllers
 
             return View(staffChange);
         }
+
+        /*实现单据类别搜索：显示单据类别编号和单据类别名称*/
+        [HttpPost]
+        public JsonResult BillTypeNumberSearch(string number)
+        {
+
+            try
+            {
+                var items = (from p in db.BillProperties where p.Type.Contains(number) || p.TypeName.Contains(number) select p.Type+" "+p.TypeName).ToList();
+
+                return Json(new
+                {
+                    success = true,
+                    data = items
+                });
+            }
+            catch (Exception e) { return Json(new { success = false, msg = e.Message }); }
+
+        }
+
+        /*实现:自动填充单据名称*/
+        [HttpPost]
+        public JsonResult SendBillTypeNumber(string BillTypeNumber)
+        {
+            StaffChange staffChange = new StaffChange();
+            var item = (from p in db.BillProperties where BillTypeNumber == p.Type select p).FirstOrDefault();
+
+            staffChange.BillTypeName = item.TypeName;
+            return Json(staffChange);
+        }
+
+        /*实现员工工号搜索：显示姓名和工号*/
         [HttpPost]
         public JsonResult StaffnumberSearch(string number)
        {
          
            try {
               // var item = db.Staffs.Where(w => (w.StaffNumber).Contains(number)).ToList().Select(w => new { id=w.StaffNumber,name=w.StaffNumber});
-               var items = (from p in db.Staffs where p.StaffNumber.Contains(number) || p.Name.Contains(number)  select p.StaffNumber +" "+ p.Name).ToList();//.ToList().Select p;
+               var items = (from p in db.Staffs where p.StaffNumber.Contains(number) || p.Name.Contains(number) select p.StaffNumber +" "+ p.Name).ToList();//.ToList().Select p;
 
            
                return Json(new
@@ -115,6 +147,7 @@ namespace Bonsaii.Controllers
         catch(Exception e){return Json(new{success = false,msg=e.Message});}
 
        }
+        /*根据工号调出员工的信息*/
         [HttpPost]
         public JsonResult SendData(string StaffNumber)
         {

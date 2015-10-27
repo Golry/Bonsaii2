@@ -37,6 +37,37 @@ namespace Bonsaii.Controllers
             return View(staffArchive);
         }
 
+        /*实现单据类别搜索：显示单据类别编号和单据类别名称*/
+        [HttpPost]
+        public JsonResult BillTypeNumberSearch(string number)
+        {
+
+            try
+            {
+                var items = (from p in db.BillProperties where p.Type.Contains(number) || p.TypeName.Contains(number) select p.Type + " " + p.TypeName).ToList();
+
+                return Json(new
+                {
+                    success = true,
+                    data = items
+                });
+            }
+            catch (Exception e) { return Json(new { success = false, msg = e.Message }); }
+
+        }
+
+        /*实现:自动填充单据名称*/
+        [HttpPost]
+        public JsonResult SendBillTypeNumber(string BillTypeNumber)
+        {
+            StaffArchive staffArchive = new StaffArchive();
+            var item = (from p in db.BillProperties where BillTypeNumber == p.Type select p).FirstOrDefault();
+
+            staffArchive.BillTypeName = item.TypeName;
+            return Json(staffArchive);
+        }
+
+
         [HttpPost]
         /*员工工号搜索 返回Json对象*/
         public JsonResult StaffNumberSearch(string number)

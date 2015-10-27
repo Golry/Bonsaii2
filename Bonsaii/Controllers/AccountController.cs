@@ -18,6 +18,7 @@ using System.Net;
 using System.Xml;
 using System.Text.RegularExpressions;
 using System.Configuration;
+using System.Linq.Expressions;
 
 namespace Bonsaii.Controllers
 {
@@ -438,6 +439,80 @@ namespace Bonsaii.Controllers
             var result = await UserManager.ConfirmEmailAsync(userId, code);
             return View(result.Succeeded ? "ConfirmEmail" : "Error");
         }
+
+        /*提交成功的页面*/
+        [AllowAnonymous]
+        public ActionResult ForgotPasswordInfo()
+        {
+            return View();
+        }
+        /*提交失败的页面*/
+        [AllowAnonymous]
+        public ActionResult ForgotPasswordInfoError()
+        {
+            return View();
+        }
+
+        /*忘记密码申请：跳转到找回密码页面之前需要验证身份*/
+        // GET: /Account/ForgotPasswordInfo
+        [AllowAnonymous]
+        public ActionResult ForgotPasswordApply()
+        {
+            UserPasswordInfo view = new UserPasswordInfo();
+            return View(view);
+        }
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public ActionResult ForgotPasswordApply(UserPasswordInfo info, HttpPostedFileBase image)
+        {
+            SystemDbContext db = new SystemDbContext();
+            if (ModelState.IsValid)
+            {
+                //UserPasswordInfo info = new UserPasswordInfo();
+                db.UserPasswordInfos.Add(info);
+                if (image != null)
+                {
+                    info.BusinessLicenseType = image.ContentType;//获取图片类型
+                    //view.BusinessLicence = new byte[image.ContentLength];//新建一个长度等于图片大小的二进制地址
+                    // image.InputStream.Read(view.BusinessLicence, 0, image.ContentLength);//将image读取到Logo中
+                    info.BusinessLicense = new byte[image.ContentLength];
+                    image.InputStream.Read(info.BusinessLicense, 0, image.ContentLength);
+                }
+
+                DateTime time = DateTime.Now;
+
+                /*利用Expression表达式树可以解决:LINQ to Entities 不识别方法“System.DateTime AddMinutes(Double)*/
+                Expression<Func<UserPasswordInfo, bool>> where = p => p.UserName == info.UserName && (p.SubmitTime.AddMinutes(2) >= time);
+                // var item = from p in db.UserPasswordInfos where (p.UserName == info.UserName && (p.SubmitTime.AddMinutes(2)<=time)) select p;
+                var item = db.UserPasswordInfos.Where(where.Compile()).ToList();
+                if (item.Count() == 0)
+                {
+                    info.SubmitTime = time;
+                    db.SaveChanges();
+                    return RedirectToAction("ForgotPasswordInfo");
+                }
+                else
+                    return RedirectToAction("ForgotPasswordInfoError");
+            }
+            return View(info);
+        }
+        /*获取图片*/
+        public FileContentResult GetImage()
+        {
+            //  SystemDbContext db = new SystemDbContext();
+            UserPasswordInfo info = new UserPasswordInfo();
+            if (info != null)
+            {
+                return File(info.BusinessLicense, info.BusinessLicenseType);//File方法直接将二进制转化为指定类型了。
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+
 
         //
         // GET: /Account/ForgotPassword
